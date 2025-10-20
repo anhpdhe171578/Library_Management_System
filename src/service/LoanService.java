@@ -34,7 +34,7 @@ public class LoanService {
         Loan loan = loanRepo.add(memberId, bookId);
         book.setAvailableCopies(book.getAvailableCopies() - 1);
 
-        return "✅ Độc giả " + member.getName() + " đã mượn " + book.getTitle() + " thành công (LoanID=" + loan.getLoanId() + ")";
+        return "Độc giả " + member.getName() + " đã mượn " + book.getTitle() + " thành công";
     }
 
     public String returnBook(int memberId, int bookId) {
