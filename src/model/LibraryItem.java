@@ -3,7 +3,7 @@ package model;
 public abstract class LibraryItem {
     protected int id;
     protected String title;
-    protected String status; // AVAILABLE / UNAVAILABLE
+    protected String status;
 
     public LibraryItem(int id, String title, String status) {
         this.id = id;

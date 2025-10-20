@@ -5,32 +5,33 @@ import repository.MemberRepository;
 import java.util.List;
 
 public class MemberService {
-    private final MemberRepository memberRepo = new MemberRepository();
+    private MemberRepository memberRepo = new MemberRepository();
 
-    public void registerMember(String name, String email, String phone) {
-        Member m = memberRepo.addMember(name, email, phone);
-        if (m != null) {
-            System.out.println("Đăng ký độc giả thành công!");
-        }
+    public MemberRepository getRepo() {
+        return memberRepo;
     }
 
-    public void showAllMembers() {
-        List<Member> list = memberRepo.getAllMembers();
-        if (list.isEmpty()) {
-            System.out.println("Chưa có độc giả nào.");
-        } else {
-            for (Member m : list) {
-                m.displayInfo();
+    public boolean add(Member member) {
+        if (memberRepo.findByEmail(member.getEmail()) != null) {
+            return false;
+        }
+        return memberRepo.add(member);
+    }
+
+    public List<Member> getAll() {
+        return memberRepo.getAll();
+    }
+
+    public Member findById(int id) {
+        return memberRepo.findById(id);
+    }
+
+    public Member findByEmail(String email) {
+        for (Member m : memberRepo.getAll()) {
+            if (m.getEmail().equalsIgnoreCase(email)) {
+                return m;
             }
         }
-    }
-
-    public void findMemberById(int id) {
-        Member m = memberRepo.getMemberById(id);
-        if (m == null) {
-            System.out.println("Không tìm thấy độc giả có ID = " + id);
-        } else {
-            m.displayInfo();
-        }
+        return null;
     }
 }

@@ -28,6 +28,7 @@ public class Book extends LibraryItem {
 
     public void setAvailableCopies(int availableCopies) {
         this.availableCopies = availableCopies;
+        updateStatus();
     }
 
     public String getIsbn() {
@@ -44,8 +45,12 @@ public class Book extends LibraryItem {
 
     public void setTotalCopies(int totalCopies) {
         this.totalCopies = totalCopies;
+        if (availableCopies > totalCopies) availableCopies = totalCopies;
+        updateStatus();
     }
-
+    private void updateStatus() {
+        this.status = (availableCopies > 0) ? "AVAILABLE" : "UNAVAILABLE";
+    }
     @Override
     public void displayInfo() {
         System.out.printf("ID: %d | Title: %s | Author: %s | ISBN: %s | Available: %d/%d%n",

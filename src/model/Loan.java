@@ -7,7 +7,7 @@ public class Loan {
     private int memberId;
     private int bookId;
     private LocalDate loanDate;
-    private LocalDate returnDate;
+    private LocalDate returnDate; // null nếu chưa trả
 
     public Loan(int loanId, int memberId, int bookId) {
         this.loanId = loanId;
@@ -59,5 +59,12 @@ public class Loan {
 
     public boolean isReturned() {
         return returnDate != null;
+    }
+
+    public void displayInfo() {
+        System.out.printf("LoanID: %d | MemberID: %d | BookID: %d | LoanDate: %s | ReturnDate: %s%n",
+                loanId, memberId, bookId,
+                loanDate,
+                (returnDate == null ? "Chưa trả" : returnDate.toString()));
     }
 }

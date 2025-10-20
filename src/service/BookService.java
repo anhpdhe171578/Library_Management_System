@@ -5,34 +5,39 @@ import repository.BookRepository;
 import java.util.List;
 
 public class BookService {
-    private final BookRepository bookRepository = new BookRepository();
-
-    public void addBook(String title, String author, String isbn, int totalCopies) {
-        Book book = bookRepository.addBook(title, author, isbn, totalCopies);
-        if (book != null) {
-            System.out.println("Thêm sách thành công!");
+    private BookRepository bookRepo = new BookRepository();
+    public BookRepository getRepo() {
+        return bookRepo;
+    }
+    public boolean add(Book book) {
+        if (bookRepo.findByIsbn(book.getIsbn()) != null) {
+            return false;
         }
+        return bookRepo.addBook(book);
     }
 
-    public void showAllBooks() {
-        List<Book> books = bookRepository.getAllBooks();
-        if (books.isEmpty()) {
-            System.out.println("Chưa có sách nào trong thư viện.");
-        } else {
-            System.out.println("Danh sách sách:");
-            for (Book b : books) b.displayInfo();
+    public List<Book> getAll() {
+        return bookRepo.getAll();
+    }
+
+    public Book findById(int id) {
+        return bookRepo.findById(id);
+    }
+
+    public boolean updateQuantity(int id, int totalCopies) {
+        Book book = bookRepo.findById(id);
+        if (book == null) return false;
+        book.setTotalCopies(totalCopies);
+        return true;
+    }
+
+    public Book findByIsbn(String isbn) {
+        for (Book b : bookRepo.getAll()) {
+            if (b.getIsbn().equalsIgnoreCase(isbn)) {
+                return b;
+            }
         }
+        return null;
     }
 
-    public void findBookById(int id) {
-        Book b = bookRepository.getBookById(id);
-        if (b != null) b.displayInfo();
-        else System.out.println("Không tìm thấy sách có ID = " + id);
-    }
-
-
-    public void updateBookCopies(int id, int newTotalCopies) {
-        boolean success = bookRepository.updateBookCopies(id, newTotalCopies);
-        System.out.println(success ? "Cập nhật thành công!" : "Cập nhật thất bại!");
-    }
 }
